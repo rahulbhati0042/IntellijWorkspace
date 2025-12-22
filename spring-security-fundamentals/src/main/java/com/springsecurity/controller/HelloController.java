@@ -11,4 +11,9 @@ public class HelloController{
         return "Hello Spring Security Fundamentals.";
     }
 
+    @GetMapping("/bye")
+    public String bye(){
+        return "Bye Spring Security Fundamentals.";
+    }
+
 }

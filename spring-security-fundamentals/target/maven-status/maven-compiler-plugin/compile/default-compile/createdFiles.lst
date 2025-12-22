@@ -1,0 +1,4 @@
+com\springsecurity\controller\MyAuthenticationProvider.class
+com\springsecurity\controller\MainApplication.class
+com\springsecurity\controller\HelloController.class
+com\springsecurity\controller\MySecurityConfig.class
