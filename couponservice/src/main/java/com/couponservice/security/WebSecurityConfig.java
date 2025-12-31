@@ -16,6 +16,10 @@ import org.springframework.security.web.context.DelegatingSecurityContextReposit
 import org.springframework.security.web.context.HttpSessionSecurityContextRepository;
 import org.springframework.security.web.context.RequestAttributeSecurityContextRepository;
 import org.springframework.security.web.context.SecurityContextRepository;
+import org.springframework.security.web.servlet.util.matcher.MvcRequestMatcher;
+import org.springframework.security.web.util.matcher.RegexRequestMatcher;
+import org.springframework.security.web.util.matcher.RequestMatcher;
+import org.springframework.web.servlet.handler.HandlerMappingIntrospector;
 
 @Configuration
 public class WebSecurityConfig  {
@@ -43,7 +47,7 @@ public class WebSecurityConfig  {
     }
 
     @Bean
-    SecurityFilterChain filterChain(HttpSecurity http) throws Exception{
+    SecurityFilterChain filterChain(HttpSecurity http,HandlerMappingIntrospector introspector) throws Exception{
         //http.formLogin(Customizer.withDefaults());
         http.authorizeHttpRequests(autorize->
                 autorize.requestMatchers(HttpMethod.GET,"/couponapi/coupons/**")
@@ -59,7 +63,12 @@ public class WebSecurityConfig  {
                         .requestMatchers("/","/login","/showReg","/registerUser","/index").permitAll())
                 .logout(logout->logout.logoutSuccessUrl("/")) ;
 
-        http.csrf(csrf->csrf.disable());
+        //http.csrf(csrf->csrf.disable());
+        http.csrf(csrf -> csrf
+                .ignoringRequestMatchers("/couponapi/coupons/**", "/getCoupon")
+        );
+
+
         http.securityContext(context->context.requireExplicitSave(true));
         return http.build();
     }
