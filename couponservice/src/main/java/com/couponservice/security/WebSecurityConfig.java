@@ -7,7 +7,7 @@ import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.ProviderManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
-import org.springframework.security.config.Customizer;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -16,12 +16,10 @@ import org.springframework.security.web.context.DelegatingSecurityContextReposit
 import org.springframework.security.web.context.HttpSessionSecurityContextRepository;
 import org.springframework.security.web.context.RequestAttributeSecurityContextRepository;
 import org.springframework.security.web.context.SecurityContextRepository;
-import org.springframework.security.web.servlet.util.matcher.MvcRequestMatcher;
-import org.springframework.security.web.util.matcher.RegexRequestMatcher;
-import org.springframework.security.web.util.matcher.RequestMatcher;
 import org.springframework.web.servlet.handler.HandlerMappingIntrospector;
 
 @Configuration
+@EnableMethodSecurity(prePostEnabled = true)
 public class WebSecurityConfig  {
 
     @Autowired
@@ -49,7 +47,7 @@ public class WebSecurityConfig  {
     @Bean
     SecurityFilterChain filterChain(HttpSecurity http,HandlerMappingIntrospector introspector) throws Exception{
         //http.formLogin(Customizer.withDefaults());
-        http.authorizeHttpRequests(autorize->
+     /*   http.authorizeHttpRequests(autorize->
                 autorize.requestMatchers(HttpMethod.GET,"/couponapi/coupons/**")
                         .hasAnyRole("USER","ADMIN")
                         .requestMatchers(HttpMethod.GET,"/showCreateCoupon","/createCoupon","/createResponse")
@@ -62,7 +60,7 @@ public class WebSecurityConfig  {
                         .hasAnyRole("USER","ADMIN")
                         .requestMatchers("/","/login","/showReg","/registerUser","/index").permitAll())
                 .logout(logout->logout.logoutSuccessUrl("/")) ;
-
+*/
         //http.csrf(csrf->csrf.disable());
         http.csrf(csrf -> csrf
                 .ignoringRequestMatchers("/couponapi/coupons/**", "/getCoupon")

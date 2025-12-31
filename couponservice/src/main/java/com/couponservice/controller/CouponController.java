@@ -3,6 +3,8 @@ package com.couponservice.controller;
 import com.couponservice.model.Coupon;
 import com.couponservice.repo.CouponRepo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PostAuthorize;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -14,6 +16,7 @@ public class CouponController {
     private CouponRepo repo;
 
     @GetMapping("/showCreateCoupon")
+    @PreAuthorize("hasRole('ADMIN')")
     public ModelAndView showCreateCoupon() {
         ModelAndView mav = new ModelAndView("createCoupon");
         return mav;
@@ -33,6 +36,7 @@ public class CouponController {
     }
 
     @PostMapping("/getCoupon")
+    @PostAuthorize("returnObject.discount<60")
     public ModelAndView getCoupon(String code) {
         ModelAndView mav = new ModelAndView("couponDetails");
         System.out.println(code);
